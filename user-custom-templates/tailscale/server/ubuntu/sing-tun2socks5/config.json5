@@ -1,0 +1,162 @@
+// @v1.13.0+
+{
+  "log": {
+    "disabled": true,
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "Cloudflare-V4",
+        "server": "1.1.1.1",
+        "tls": {
+          "enabled": true,
+          "server_name": "cloudflare-dns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-DoH",
+        "domain_resolver": "Cloudflare-V4",
+        "server": "cloudflare-dns.com"
+      }
+    ],
+    "final": "Cloudflare-DoH",
+    "strategy": "prefer_ipv6",
+    "disable_cache": false,
+    "disable_expire": false,
+    "independent_cache": true
+  },
+  "ntp": {
+    "server": "ntp.ubuntu.com",
+    "server_port": 0
+  },
+  // Equivalent to "tailscale up --advertise-exit-node=true"
+  "endpoints": [
+    {
+      "type": "tailscale",
+      "tag": "ts-ep",
+      "state_directory": "/etc/tailscale", // The directory where the Tailscale state is stored, default: tailscale
+      "auth_key": "", // The auth key to create the node
+      "control_url": "", // The coordination server URL, default: https://controlplane.tailscale.com
+      "ephemeral": false, // Indicates whether the instance should register as an Ephemeral node
+      "hostname": "ubuntu-verizon-us-mob-socks5", // The hostname of the node
+      "accept_routes": true, // Indicates whether the node should accept routes advertised by other nodes
+      "exit_node": "", // The exit node name or IP address to use
+      "exit_node_allow_lan_access": false, // Indicates whether locally accessible subnets should be routed directly or via the exit node
+      "advertise_routes": [], // CIDR prefixes to advertise into the Tailscale network as reachable through the current node
+      "advertise_exit_node": true, // Indicates whether the node should advertise itself as an exit node
+      "advertise_tags": [], // Tags to advertise for this node, for ACL enforcement purposes [@v1.13.0+]
+      "relay_server_port": 0, // The port to listen on for incoming relay connections from other Tailscale nodes [@v1.13.0+]
+      "relay_server_static_endpoints": [], // Static endpoints to advertise for the relay server [@v1.13.0+]
+      "system_interface": false, // Create a system TUN interface for Tailscale [@v1.13.0+]
+      "system_interface_name": "", // Custom TUN interface name, default: tailscale [@v1.13.0+]
+      "system_interface_mtu": 0, // Override the TUN MTU [@v1.13.0+]
+      "udp_timeout": "5m" // UDP NAT expiration time
+    }
+  ],
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "sing-tun0",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "loopback_address": [
+        "10.7.0.1"
+      ],
+      "strict_route": true,
+      "route_address": [
+        "0.0.0.0/1",
+        "128.0.0.0/1",
+        "::/1",
+        "8000::/1"
+      ],
+      "route_exclude_address": [
+        "192.168.0.0/16",
+        "fc00::/7"
+      ],
+      "endpoint_independent_nat": false,
+      "udp_timeout": "5m",
+      "stack": "system"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "socks",
+      "tag": "socks-out",
+      "server": "YOUR_SOCKS5_SERVER_DOMAIN_OR_PUBLIC_IPV6",
+      "server_port": YOUR_SOCKS5_SERVER_PORT,
+      "username": "YOUR_SOCKS5_USERNAME",
+      "password": "YOUR_SOCKS5_PASSWORD",
+      "udp_over_tcp": false
+    },
+    // Equivalent to tag: "ts-ep"
+    {
+      "type": "direct",
+      "tag": "direct-out"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "protocol": "dns"
+          },
+          {
+            "port": 53
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct-out"
+      },
+      {
+        "domain": [
+          "YOUR_SOCKS5_SERVER_DOMAIN"
+        ],
+        "outbound": "direct-out"
+      },
+      // {
+      //   "ip_cidr": [
+      //     "YOUR_SOCKS5_SERVER_PUBLIC_IPV4/32",
+      //     "YOUR_SOCKS5_SERVER_PUBLIC_IPV6/128"
+      //   ],
+      //   "outbound": "direct-out"
+      // },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          }
+        ],
+        "action": "reject"
+      }
+    ],
+    "final": "socks-out",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "Cloudflare-DoH"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_rdrc": true
+    }
+  }
+}
