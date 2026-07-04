@@ -1,0 +1,67 @@
+Description
+  A bash script for Ubuntu designed to seamlessly integrate the advantages of WireGuard, sing-box, and SOCKS5, so you can tunnel all you desire, mainly by providing user custom configuration templates for sing-box (version: v1.13.0 and v1.12.22 stable).
+
+Features
+  - Combine the advantages of WireGuard VPN Protocol(including Tailscale mesh VPN), sing-box bare kernel and SOCKS5 Protocol
+  - Combine "sengshinlee/wireguard" with it to use
+  - sing-box version: only supports "sing-box@v1.13.0-stable[server]" and "sing-box@v1.12.22-stable[client]"
+  - Install sing-box on Ubuntu Linux using dpkg
+
+  + NIC forwarding
+      + Virtual NIC: (wg0.sing-box/tailscale0 -2-> sing-tun0) -2-> Proxy: socks5 -2-> Physical NIC
+          + tun2tun
+              - wg2sing-tun
+              - tailscale2sing-tun
+          + tun2socks
+              - sing-tun2socks5
+
+  - Generate a "wg0.sing-box.conf" file with a hook using sing-box process for wg-quick(8)
+
+  + Generate a "config.ipv4.json5" and a "config.json5" files using sing-box process to replace Tailscale CLI
+      - Connect to Tailscale for the first time, logging in using "auth_key" or "control_url" from "endpoints" field in "config[.ipv4].json5"
+      + Tailscale "state_directory" is "/etc/tailscale" with sing-box
+          - tailscaled.state
+          - tailscaled.log.conf
+          - tailscaled.log1.txt
+          - tailscaled.log2.txt
+
+  - Provide some user custom sing-box "config.json[5]" templates on macOS, Ubuntu Linux and Windows platforms
+
+  + Support 2 cron schedules
+      - /usr/local/bin/wg-quick-cron.sh
+      - /usr/local/bin/sing-box-run-cron.sh
+
+  - Support IPv4-only and dual-stack
+
+Directory Tree
+.
+|-- LICENSE
+|-- README
+|-- sing-box.sh
+\-- user-custom-templates
+    |-- tailscale
+    |   |-- client // TODO
+    |   |   |-- macos
+    |   |   |   \-- config.json
+    |   |   |-- ubuntu
+    |   |   |   \-- config.json
+    |   |   \-- windows
+    |   |       \-- config.json
+    |   \-- server
+    |       \-- ubuntu
+    |           \-- sing-tun2socks5
+    |               |-- config.ipv4.json5
+    |               \-- config.json5
+    \-- wireguard
+        |-- client
+        |   |-- macos
+        |   |   \-- config.json // TODO
+        |   |-- ubuntu
+        |   |   \-- config.json
+        |   \-- windows
+        |       \-- config.json
+        \-- server
+            \-- ubuntu
+                \-- sing-tun2socks5
+                    |-- config.ipv4.json5
+                    \-- config.json5
