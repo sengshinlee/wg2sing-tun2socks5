@@ -1,0 +1,299 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "DNSPod-V4",
+        "server": "120.53.53.53",
+        "tls": {
+          "enabled": true,
+          "server_name": "dns.pub"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "DNSPod-DoH",
+        "domain_resolver": "DNSPod-V4",
+        "server": "dns.pub"
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-V4",
+        "detour": "wg-ep",
+        "server": "1.1.1.1",
+        "tls": {
+          "enabled": true,
+          "server_name": "cloudflare-dns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-DoH",
+        "detour": "wg-ep",
+        "domain_resolver": "Cloudflare-V4",
+        "server": "cloudflare-dns.com"
+      },
+      {
+        "type": "fakeip",
+        "tag": "FakeIP",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": "geosite-geolocation-cn",
+        "server": "DNSPod-DoH"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          },
+          {
+            "rule_set": "geoip-cn"
+          }
+        ],
+        "server": "Cloudflare-DoH"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "FakeIP"
+      }
+    ],
+    "final": "Cloudflare-DoH",
+    "strategy": "prefer_ipv6",
+    "disable_cache": true,
+    "disable_expire": false,
+    "independent_cache": false
+  },
+  "ntp": {
+    "server": "time.windows.com",
+    "server_port": 0
+  },
+  "endpoints": [
+    {
+      "type": "wireguard",
+      "tag": "wg-ep",
+      "name": "windows",
+      "mtu": 1280,
+      "address": [
+        "10.0.0.6/32",
+        "fd00::6/128"
+      ],
+      "private_key": "YOUR_CLIENT_PRIVATE_KEY",
+      "peers": [
+        {
+          "address": "YOUR_SERVER_PUBLIC_IPV6",
+          "port": 51820,
+          "public_key": "YOUR_SERVER_PUBLIC_KEY",
+          "pre_shared_key": "YOUR_CLIENT_PRESHARED_KEY",
+          "allowed_ips": [
+            "0.0.0.0/0",
+            "::/0"
+          ],
+          "persistent_keepalive_interval": 25
+        }
+      ]
+    }
+  ],
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "sing-tun0",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": false,
+      "stack": "system"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct-out"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "protocol": "dns"
+          },
+          {
+            "port": 53
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct-out"
+      },
+      {
+        "process_name": [
+          "bili-curt-test.exe",
+          "bililive_browser.exe",
+          "dpinst64.exe",
+          "dpscat.exe",
+          "DriverInstaller.exe",
+          "hpatchz.exe",
+          "livehime.exe",
+          "livehime_tts.exe",
+
+          "uu.exe",
+          "uu_ball.exe",
+          "uu_cloudsyn.exe",
+          "uu_launcher.exe",
+
+          "BEService.exe",
+          "BEService_pubg.exe",
+          "BEService_x64.exe",
+          "BroCrashReporter.exe",
+          "ExecPubg.exe",
+          "iigw_server.exe",
+          "TslGame.exe",
+          "TslGame_BE.exe",
+          "TslGame_ZK.exe",
+          "WinMTR.exe",
+          "zksvc.exe",
+
+          "ACE-Helper.exe",
+          "ACE-Service64.exe",
+          "ACE-Setup64.exe",
+          "ACE-Tray.exe",
+          "aclos-launcher.exe",
+          "crashpad_handler.exe",
+          "DiagnoseTool.exe",
+          "SGuard64.exe",
+          "SGuardSvc64.exe",
+          "SGuardUpdate64.exe",
+          "VALORANT.exe",
+          "VALORANT-Win64-Shipping.exe",
+
+          "crashpad_handler.exe",
+          "WeChatAppEx.exe",
+          "Weixin.exe",
+          "WeixinUpdate.exe",
+
+          "rustdesk.exe",
+
+          "APlayer.exe",
+          "cssdk.exe",
+          "DownloadSDKServer.exe",
+          "InstallXLGuard.exe",
+          "InstallXLWFP.exe",
+          "LiveUDInstaller.exe",
+          "svchost.exe",
+          "Thunder.exe",
+          "ThunderCmd.exe",
+          "ThunderEv.exe",
+          "ThunderFW.exe",
+          "ThunderRepair.exe",
+          "ThunderStart.exe",
+          "Win7AppId.exe",
+          "wxinit.exe",
+          "xlacc.exe",
+          "XLBugReport.exe",
+          "xllite.exe",
+          "XLLiveUD.exe",
+          "XLServicePlatform.exe",
+          "XLWFPSetup.exe",
+
+          "BeeWebEngineProcess.exe",
+          "CrashServerDamon.exe",
+          "HikIotClient.exe",
+          "HikIotVideoWallServer.exe",
+          "HikIotVideoClient.exe",
+          "HikIotTCP.exe",
+          "HikIotServer.exe",
+          "HikIotDP.exe",
+          "WatchDog.exe"
+        ],
+        "outbound": "direct-out"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": "geosite-geolocation-cn",
+        "outbound": "direct-out"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "geoip-cn"
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          }
+        ],
+        "outbound": "direct-out"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-cn",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-!cn",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs"
+      }
+    ],
+    "final": "wg-ep",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "DNSPod-DoH"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": false,
+      "store_fakeip": true,
+      "store_rdrc": true
+    }
+  }
+}
