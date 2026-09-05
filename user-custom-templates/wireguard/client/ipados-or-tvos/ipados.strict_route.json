@@ -1,0 +1,309 @@
+{
+  "$schema": "https://sing-box.sagernet.org/schema.json",
+  "log": {
+    "disabled": false,
+    "level": "debug",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "DNSPod-V4",
+        "server": "120.53.53.53",
+        "tls": {
+          "enabled": true,
+          "server_name": "dns.pub"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "DNSPod-DoH",
+        "domain_resolver": "DNSPod-V4",
+        "server": "dns.pub"
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-V4",
+        "detour": "wg-ep",
+        "server": "1.1.1.1",
+        "tls": {
+          "enabled": true,
+          "server_name": "cloudflare-dns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-DoH",
+        "detour": "wg-ep",
+        "domain_resolver": "Cloudflare-V4",
+        "server": "cloudflare-dns.com"
+      },
+      {
+        "type": "fakeip",
+        "tag": "FakeIP",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "FakeIP"
+      },
+      {
+        "rule_set": "geosite-geolocation-cn",
+        "server": "DNSPod-DoH"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "query_type": [
+              "A",
+              "AAAA"
+            ]
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          }
+        ],
+        "action": "evaluate",
+        "server": "Cloudflare-DoH"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "query_type": [
+              "A",
+              "AAAA"
+            ]
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          },
+          {
+            "rule_set": "geoip-cn",
+            "match_response": true
+          }
+        ],
+        "action": "respond"
+      },
+      {
+        "rule_set": "geosite-anthropic",
+        "server": "Cloudflare-DoH"
+      }
+    ],
+    "final": "Cloudflare-DoH",
+    "strategy": "prefer_ipv6",
+    "disable_cache": true,
+    "disable_expire": false
+  },
+  "ntp": {
+    "server": "time.apple.com",
+    "server_port": 0
+  },
+  "http_clients": [
+    {
+      "tag": "rule-set-direct-out",
+      "engine": "go"
+    }
+  ],
+  "endpoints": [
+    {
+      "type": "wireguard",
+      "tag": "wg-ep",
+      "name": "ipados",
+      "mtu": 1280,
+      "address": [
+        "10.0.0.8/32",
+        "fd00::8/128"
+      ],
+      "private_key": "YOUR_CLIENT_PRIVATE_KEY",
+      "peers": [
+        {
+          "address": "YOUR_SERVER_DOMAIN_OR_PUBLIC_IPV6",
+          "port": 51820,
+          "public_key": "YOUR_SERVER_PUBLIC_KEY",
+          "pre_shared_key": "YOUR_CLIENT_PRESHARED_KEY",
+          "allowed_ips": [
+            "0.0.0.0/0",
+            "::/0"
+          ],
+          "persistent_keepalive_interval": 25
+        }
+      ]
+    }
+  ],
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "utun100",
+      "mtu": 9000,
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": false,
+      "stack": "system"
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct-out"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "protocol": "dns"
+          },
+          {
+            "port": 53
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct-out"
+      },
+      {
+        "domain": [
+          "claude.ai",
+          "www.claude.ai",
+          "a.claude.ai",
+          "assets.claude.ai",
+          "console.claude.ai",
+          "downloads.claude.ai",
+          "preview.claude.ai",
+          "sso.claude.ai",
+          "staging.claude.ai",
+          "status.claude.ai",
+
+          "claude.com",
+          "www.claude.com",
+
+          "anthropic.com",
+          "www.anthropic.com",
+          "a-api.anthropic.com",
+          "a-cdn.anthropic.com",
+          "alignment.anthropic.com",
+          "api.anthropic.com",
+          "assets.anthropic.com",
+          "console.anthropic.com",
+          "docs.anthropic.com",
+          "platform.anthropic.com",
+          "privacy.anthropic.com",
+          "red.anthropic.com",
+          "statsig.anthropic.com",
+          "status.anthropic.com",
+          "support.anthropic.com",
+          "trust.anthropic.com",
+          "anthropic.cloudflareaccess.com",
+          "claude-ai.staging.ant.dev"
+        ],
+        "outbound": "wg-ep"
+      },
+      {
+        "domain_suffix": [
+          "claude.ai",
+          "claude.com",
+          "anthropic.com"
+        ],
+        "outbound": "wg-ep"
+      },
+      {
+        "rule_set": "geosite-geolocation-cn",
+        "outbound": "direct-out"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "geoip-cn"
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          }
+        ],
+        "outbound": "direct-out"
+      },
+      {
+        "rule_set": "geosite-anthropic",
+        "outbound": "wg-ep"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-cn",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-!cn",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-anthropic",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-anthropic.srs"
+      }
+    ],
+    "final": "wg-ep",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "DNSPod-DoH",
+    "default_http_client": "rule-set-direct-out"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": false,
+      "store_dns": true,
+      "store_fakeip": true
+    }
+  }
+}
