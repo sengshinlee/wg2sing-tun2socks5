@@ -1,0 +1,95 @@
+Description
+  A bash script for Ubuntu designed to seamlessly integrate the advantages of WireGuard, sing-box, and SOCKS5, so you can tunnel all you desire, mainly by providing user custom configuration templates for sing-box (Version: v1.14.0 stable).
+
+Features
+  - Only support "sing-box-1.14.0-linux-stable"
+  - Combine the advantages of WireGuard VPN protocol(including Tailscale mesh VPN), sing-box naked core and SOCKS5 protocol
+
+  + Install sing-box on Ubuntu Linux via dpkg
+      - Command: curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.14.0
+
+  + Provide a JSON Schema Draft 2020-12 for configuration files, compatible editors can use it for completion and validation
+      - JSON Schema URL: https://sing-box.sagernet.org/schema.json
+
+  - Support the sing-box dashboard using the sing-box API service, which provides a gRPC server for the sing-box server
+
+  + NIC forwarding
+      + Virtual NIC: (wg0.sing-box/tailscale0 -2-> sing-tun0) -2-> Proxy: socks5 -2-> Physical NIC
+          + tun2tun
+              - wg2sing-tun
+              - tailscale2sing-tun
+          + tun2socks
+              - sing-tun2socks5
+
+  - Combine "sengshinlee/wireguard" with it to use
+
+  + Generate a "wg0.sing-box.conf"
+      + Use the sing-box subcommand as a hook for wg-quick(8)
+          - sing-box run -c /etc/sing-box/config[.ipv4].json5
+
+  - Generate a "config.ipv4.json5" and a "config.json5"
+
+  + Use sing-box binary to replace Tailscale CLI and tailscaled
+      - Connect to Tailscale for the first time, logging in using "auth_key" or "control_url" from "endpoints" field in "config[.ipv4].json5"
+      + Tailscale "state_directory" is "/etc/tailscale"
+          - tailscaled.state
+          - tailscaled.log.conf
+          - tailscaled.log1.txt
+          - tailscaled.log2.txt
+
+  - Provide some sing-box user custom configuration templates on Ubuntu Linux, macOS and Windows platforms
+
+  + Support two cron schedules
+      - /usr/local/bin/wg-quick-cron.sh
+      - /usr/local/bin/sing-box-run-cron.sh
+
+  - Support both IPv4-only and dual-stack
+
+  + Support sing-box naked core and all GUI clients
+      - sing-box naked core
+      - sing-box API
+      - sing-box dashboard
+      - SFL
+      - SFA
+      - SFM
+      - SFI
+      - SFT
+      - SFW
+
+Directory Tree
+.
+|-- LICENSE
+|-- README
+|-- sing-box.sh
+`-- user-custom-templates
+    |-- tailscale
+    |   `-- server
+    |       `-- ubuntu
+    |           `-- sing-tun2socks5
+    |               |-- config.ipv4.json5
+    |               `-- config.json5
+    `-- wireguard
+        |-- client
+        |   |-- android-or-android-tv-os
+        |   |   |-- android.ipv4.strict_route.json
+        |   |   `-- android.strict_route.json
+        |   |-- ios
+        |   |   |-- ios.ipv4.strict_route.json
+        |   |   `-- ios.strict_route.json
+        |   |-- ipados-or-tvos
+        |   |   |-- ipados.ipv4.strict_route.json
+        |   |   `-- ipados.strict_route.json
+        |   |-- macos
+        |   |   |-- macos.ipv4.strict_route.json
+        |   |   `-- macos.strict_route.json
+        |   |-- ubuntu
+        |   |   |-- ubuntu.ipv4.strict_route.json
+        |   |   `-- ubuntu.strict_route.json
+        |   `-- windows
+        |       |-- windows.ipv4.strict_route.json
+        |       `-- windows.strict_route.json
+        `-- server
+            `-- ubuntu
+                `-- sing-tun2socks5
+                    |-- config.ipv4.json5
+                    `-- config.json5
