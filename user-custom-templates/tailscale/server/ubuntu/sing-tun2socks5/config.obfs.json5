@@ -106,8 +106,8 @@
       "tag": "socks-out",
       "server": "YOUR_SOCKS5_SERVER_DOMAIN_OR_PUBLIC_IPV6",
       "server_port": YOUR_SOCKS5_SERVER_PORT,
-      "username": "YOUR_SOCKS5_USERNAME",
-      "password": "YOUR_SOCKS5_PASSWORD",
+      "username": "YOUR_SOCKS5_SERVER_USERNAME",
+      "password": "YOUR_SOCKS5_SERVER_PASSWORD",
       "udp_over_tcp": false
     },
     // Equivalent to tag: "ts-ep"
