@@ -24,20 +24,31 @@ Features
   - Combine "sengshinlee/wireguard" with it to use
 
   + Generate a "wg0.sing-box.conf"
+      + WireGuard configuration files directory is "/etc/wireguard"
+          - wg0.conf
+          - wg0.sing-box.conf
       + Use the sing-box subcommand as a hook for wg-quick(8)
           - sing-box run -c /etc/sing-box/config[.ipv4].json5
 
-  - Generate a "config.ipv4.json5" and a "config.json5"
-
   + Use sing-box binary to replace Tailscale CLI and tailscaled
-      - Connect to Tailscale for the first time, logging in using "auth_key" or "control_url" from "endpoints" field in "config[.ipv4].json5"
+      - Connect to Tailscale for the first time, logging in using "auth_key" or "control_url" from "endpoints" field in "config[.ipv4].obfs.json5"
       + Tailscale "state_directory" is "/etc/tailscale"
-          - tailscaled.state
+          - certs
+          - profile-data
           - tailscaled.log.conf
           - tailscaled.log1.txt
           - tailscaled.log2.txt
+          - tailscaled.state
+      + sing-box configuration files directory is "/etc/sing-box"
+          - cache.db
+          - config.ipv4.obfs.json5
+          - config.obfs.json5
+          - dashboard
+          - Taildrop
+      - sing-box run -c /etc/sing-box/config[.ipv4].obfs.json5
 
-  - Provide some sing-box user custom configuration templates on Ubuntu Linux, macOS and Windows platforms
+  - Provide four sing-box user custom configuration templates on Ubuntu Linux Server platform
+  - Provide some sing-box user custom configuration templates on Ubuntu Linux Desktop, macOS and Windows platforms
 
   + Support two cron schedules
       - /usr/local/bin/wg-quick-cron.sh
@@ -63,11 +74,36 @@ Directory Tree
 |-- sing-box.sh
 `-- user-custom-templates
     |-- tailscale
+    |   |-- client
+    |   |   |-- android-or-android-tv-os
+    |   |   |   |-- android.ipv4.strict_route.obfs.json
+    |   |   |   `-- android.strict_route.obfs.json
+    |   |   |-- ios
+    |   |   |   |-- ios.ipv4.strict_route.obfs.json
+    |   |   |   `-- ios.strict_route.obfs.json
+    |   |   |-- ipados-or-tvos
+    |   |   |   |-- ipados.ipv4.strict_route.obfs.json
+    |   |   |   `-- ipados.strict_route.obfs.json
+    |   |   |-- macos
+    |   |   |   |-- macos.ipv4.strict_route.obfs.json
+    |   |   |   |-- macos.ipv4.strict_route.obfs.json5
+    |   |   |   |-- macos.strict_route.obfs.json
+    |   |   |   `-- macos.strict_route.obfs.json5
+    |   |   |-- ubuntu
+    |   |   |   |-- ubuntu.ipv4.strict_route.obfs.json
+    |   |   |   |-- ubuntu.ipv4.strict_route.obfs.json5
+    |   |   |   |-- ubuntu.strict_route.obfs.json
+    |   |   |   `-- ubuntu.strict_route.obfs.json5
+    |   |   `-- windows
+    |   |       |-- windows.ipv4.strict_route.obfs.json
+    |   |       |-- windows.ipv4.strict_route.obfs.json5
+    |   |       |-- windows.strict_route.obfs.json
+    |   |       `-- windows.strict_route.obfs.json5
     |   `-- server
     |       `-- ubuntu
     |           `-- sing-tun2socks5
-    |               |-- config.ipv4.json5
-    |               `-- config.json5
+    |               |-- config.ipv4.obfs.json5
+    |               `-- config.obfs.json5
     `-- wireguard
         |-- client
         |   |-- android-or-android-tv-os
