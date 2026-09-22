@@ -116,15 +116,15 @@ function generate_tailscale() {
     fi
 
     if [[ "${SERVER_PUBLIC_IP}" == *":"* ]]; then
-        wget -q https://raw.githubusercontent.com/sengshinlee/wg2sing-tun2socks5/refs/heads/main/user-custom-templates/tailscale/server/ubuntu/sing-tun2socks5/config.ipv4.json5 -P /etc/sing-box
-        wget -q https://raw.githubusercontent.com/sengshinlee/wg2sing-tun2socks5/refs/heads/main/user-custom-templates/tailscale/server/ubuntu/sing-tun2socks5/config.json5 -P /etc/sing-box
+        wget -q https://raw.githubusercontent.com/sengshinlee/wg2sing-tun2socks5/refs/heads/main/user-custom-templates/tailscale/server/ubuntu/sing-tun2socks5/config.ipv4.obfs.json5 -P /etc/sing-box
+        wget -q https://raw.githubusercontent.com/sengshinlee/wg2sing-tun2socks5/refs/heads/main/user-custom-templates/tailscale/server/ubuntu/sing-tun2socks5/config.obfs.json5 -P /etc/sing-box
 
         echo "WARNING:"
         echo ""
-        echo -e "  When you use \"config.ipv4.json5\", you must rename it to \"config.json5\"."
+        echo -e "  When you use \"config.ipv4.obfs.json5\", you must rename it to \"config.obfs.json5\"."
         echo ""
     else
-        wget -q https://raw.githubusercontent.com/sengshinlee/wg2sing-tun2socks5/refs/heads/main/user-custom-templates/tailscale/server/ubuntu/sing-tun2socks5/config.ipv4.json5 -O /etc/sing-box/config.json5
+        wget -q https://raw.githubusercontent.com/sengshinlee/wg2sing-tun2socks5/refs/heads/main/user-custom-templates/tailscale/server/ubuntu/sing-tun2socks5/config.ipv4.obfs.json5 -O /etc/sing-box/config.obfs.json5
     fi
     exit 0
 }
@@ -140,6 +140,7 @@ function remove() {
 
         wg-quick down wg0.sing-box >/dev/null 2>&1
         pkill -15 -f "sing-box run -c /etc/sing-box/config.json5" >/dev/null 2>&1
+        pkill -15 -f "sing-box run -c /etc/sing-box/config.obfs.json5" >/dev/null 2>&1
         apt-get purge sing-box -y >/dev/null 2>&1
 
         if [ -d "/etc/sing-box" ]; then
@@ -195,7 +196,7 @@ function sing_box_run_cron() {
 
 if [ $(ps aux | grep "sing-box run -c /etc/sing-box/" | wc -l) -eq 1 ]; then
     echo "$(date): sing-box is closed, reopening..." | sudo tee -a /var/log/sing-box-run-cron.log
-    sudo sing-box run -c /etc/sing-box/config.json5
+    sudo sing-box run -c /etc/sing-box/config.obfs.json5
 fi
 EOF
 
@@ -222,10 +223,10 @@ OPTION
     -h, --help                Show help manual
     -i, --install             Install "sing-box-1.14.0-linux-stable"
     -gw, --generate-wireguard Generate 3[/2] files: "wg0.sing-box.conf" and "config[.ipv4].json5"
-    -gt, --generate-tailscale Generate 2[/1] file[s]: "config[.ipv4].json5"
+    -gt, --generate-tailscale Generate 2[/1] file[s]: "config[.ipv4].obfs.json5"
     -r, --remove              Uninstall sing-box and remove all configuration files
     -aw, --add-wireguard      Add a "wg-quick up wg0.sing-box" cron schedule
-    -at, --add-tailscale      Add a "sing-box run -c /etc/sing-box/config.json5" cron schedule
+    -at, --add-tailscale      Add a "sing-box run -c /etc/sing-box/config.obfs.json5" cron schedule
 EOF
     exit 0
 }
