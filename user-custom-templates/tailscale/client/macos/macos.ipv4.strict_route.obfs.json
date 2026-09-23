@@ -125,7 +125,7 @@
       "type": "tailscale",
       "tag": "ts-ep",
       "state_directory": "",
-      "auth_key": "",
+      "auth_key": "YOUR_TAILSCALE_AUTH_KEY",
       "control_url": "",
       "ephemeral": false,
       "hostname": "YOUR_MACOS_DEVICE_HOSTNAME",
