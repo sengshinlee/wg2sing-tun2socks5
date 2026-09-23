@@ -80,6 +80,7 @@
       "password": "YOUR_SOCKS5_SERVER_PASSWORD",
       "udp_over_tcp": false
     },
+    // Equivalent to tag: "wg-ep"
     {
       "type": "direct",
       "tag": "direct-out"
