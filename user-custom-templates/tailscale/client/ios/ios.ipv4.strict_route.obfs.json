@@ -130,7 +130,7 @@
       "ephemeral": false,
       "hostname": "YOUR_IOS_DEVICE_HOSTNAME",
       "accept_routes": false,
-      "exit_node": "ubuntu-verizon-us-mob-socks5",
+      "exit_node": "YOUR_TAILSCALE_EXIT_NODE",
       "exit_node_allow_lan_access": true,
       "advertise_routes": [],
       "advertise_exit_node": false,
