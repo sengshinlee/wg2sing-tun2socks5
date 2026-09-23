@@ -43,31 +43,31 @@
     {
       "type": "tailscale",
       "tag": "ts-ep",
-      "state_directory": "/etc/tailscale", // The directory where the Tailscale state is stored, default: tailscale
-      "auth_key": "YOUR_TAILSCALE_AUTH_KEY", // The auth key to create the node
-      "control_url": "", // The coordination server URL, default: https://controlplane.tailscale.com
-      "ephemeral": false, // Indicates whether the instance should register as an Ephemeral node
+      "state_directory": "/etc/tailscale",               // The directory where the Tailscale state is stored, default: tailscale
+      "auth_key": "YOUR_TAILSCALE_AUTH_KEY",             // The auth key to create the node
+      "control_url": "",                                 // The coordination server URL, default: https://controlplane.tailscale.com
+      "ephemeral": false,                                // Indicates whether the instance should register as an Ephemeral node
       "hostname": "YOUR_UBUNTU_SERVER_MACHINE_HOSTNAME", // The hostname of the node
-      "accept_routes": true, // Indicates whether the node should accept routes advertised by other nodes
-      "exit_node": "", // The exit node name or IP address to use
-      "exit_node_allow_lan_access": false, // Indicates whether locally accessible subnets should be routed directly or via the exit node
-      "advertise_routes": [], // CIDR prefixes to advertise into the Tailscale network as reachable through the current node
-      "advertise_exit_node": true, // Indicates whether the node should advertise itself as an exit node
-      "advertise_tags": [], // Tags to advertise for this node, for ACL enforcement purposes
-      "listen_port": 0, // The UDP port to listen on for WireGuard and peer-to-peer traffic, which is automatically selected by default
-      "relay_server_port": 0, // The port to listen on for incoming relay connections from other Tailscale nodes
-      "relay_server_static_endpoints": [], // Static endpoints to advertise for the relay server
-      "system_interface": false, // Create a system TUN interface for Tailscale
-      "system_interface_name": "", // Custom TUN interface name, default: tailscale
-      "system_interface_mtu": 0, // Override the TUN MTU
-      "udp_timeout": "5m", // UDP NAT expiration time
-      "ssh_server": {
+      "accept_routes": true,                             // Indicates whether the node should accept routes advertised by other nodes
+      "exit_node": "",                                   // The exit node name or IP address to use
+      "exit_node_allow_lan_access": false,               // Indicates whether locally accessible subnets should be routed directly or via the exit node
+      "advertise_routes": [],                            // CIDR prefixes to advertise into the Tailscale network as reachable through the current node
+      "advertise_exit_node": true,                       // Indicates whether the node should advertise itself as an exit node
+      "advertise_tags": [],                              // Tags to advertise for this node, for ACL enforcement purposes
+      "listen_port": 0,                                  // The UDP port to listen on for WireGuard and peer-to-peer traffic, which is automatically selected by default
+      "relay_server_port": 0,                            // The port to listen on for incoming relay connections from other Tailscale nodes
+      "relay_server_static_endpoints": [],               // Static endpoints to advertise for the relay server
+      "system_interface": false,                         // Create a system TUN interface for Tailscale
+      "system_interface_name": "",                       // Custom TUN interface name, default: tailscale
+      "system_interface_mtu": 0,                         // Override the TUN MTU
+      "udp_timeout": "5m",                               // UDP NAT expiration time
+      "ssh_server": {                                    // Run a Tailscale SSH server on tailnet port 22
         "enabled": true,
         "disable_pty": false,
         "disable_sftp": false,
         "disable_forwarding": false
-      }, // Run a Tailscale SSH server on tailnet port 22
-      "taildrop_directory": "" // The directory where files received from tailnet peers are stored, default: Taildrop
+      },
+      "taildrop_directory": ""                           // The directory where files received from tailnet peers are stored, default: Taildrop
     }
   ],
   "inbounds": [
