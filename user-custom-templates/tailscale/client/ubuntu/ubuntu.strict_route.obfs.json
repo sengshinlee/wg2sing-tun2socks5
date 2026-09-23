@@ -125,7 +125,7 @@
       "auth_key": "",
       "control_url": "",
       "ephemeral": false,
-      "hostname": "YOUR_UBUNTU_DESKTOP_DEVICE_NAME",
+      "hostname": "YOUR_UBUNTU_DESKTOP_DEVICE_HOSTNAME",
       "accept_routes": false,
       "exit_node": "ubuntu-verizon-us-mob-socks5",
       "exit_node_allow_lan_access": true,
