@@ -98,8 +98,7 @@
       "udp_timeout": "5m",
       "udp_mapping": "endpoint_independent",
       "udp_filtering": "endpoint_independent",
-      "udp_nat_max": 0,
-      "stack": "system"
+      "udp_nat_max": 0
     }
   ],
   "outbounds": [

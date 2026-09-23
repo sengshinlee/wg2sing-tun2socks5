@@ -152,8 +152,7 @@
         "fdfe:dcba:9876::1/126"
       ],
       "auto_route": true,
-      "strict_route": false,
-      "stack": "mixed"
+      "strict_route": false
     }
   ],
   "outbounds": [
