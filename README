@@ -76,29 +76,35 @@ Directory Tree
     |-- tailscale
     |   |-- client
     |   |   |-- android-or-android-tv-os
+    |   |   |   |-- android.ipv4.obfs.json
     |   |   |   |-- android.ipv4.strict_route.obfs.json
+    |   |   |   |-- android.obfs.json
     |   |   |   `-- android.strict_route.obfs.json
     |   |   |-- ios
+    |   |   |   |-- ios.ipv4.obfs.json
     |   |   |   |-- ios.ipv4.strict_route.obfs.json
+    |   |   |   |-- ios.obfs.json
     |   |   |   `-- ios.strict_route.obfs.json
     |   |   |-- ipados-or-tvos
+    |   |   |   |-- ipados.ipv4.obfs.json
     |   |   |   |-- ipados.ipv4.strict_route.obfs.json
+    |   |   |   |-- ipados.obfs.json
     |   |   |   `-- ipados.strict_route.obfs.json
     |   |   |-- macos
+    |   |   |   |-- macos.ipv4.obfs.json
     |   |   |   |-- macos.ipv4.strict_route.obfs.json
-    |   |   |   |-- macos.ipv4.strict_route.obfs.json5
-    |   |   |   |-- macos.strict_route.obfs.json
-    |   |   |   `-- macos.strict_route.obfs.json5
+    |   |   |   |-- macos.obfs.json
+    |   |   |   `-- macos.strict_route.obfs.json
     |   |   |-- ubuntu
+    |   |   |   |-- ubuntu.ipv4.obfs.json
     |   |   |   |-- ubuntu.ipv4.strict_route.obfs.json
-    |   |   |   |-- ubuntu.ipv4.strict_route.obfs.json5
-    |   |   |   |-- ubuntu.strict_route.obfs.json
-    |   |   |   `-- ubuntu.strict_route.obfs.json5
+    |   |   |   |-- ubuntu.obfs.json
+    |   |   |   `-- ubuntu.strict_route.obfs.json
     |   |   `-- windows
+    |   |       |-- windows.ipv4.obfs.json
     |   |       |-- windows.ipv4.strict_route.obfs.json
-    |   |       |-- windows.ipv4.strict_route.obfs.json5
-    |   |       |-- windows.strict_route.obfs.json
-    |   |       `-- windows.strict_route.obfs.json5
+    |   |       |-- windows.obfs.json
+    |   |       `-- windows.strict_route.obfs.json
     |   `-- server
     |       `-- ubuntu
     |           `-- sing-tun2socks5
@@ -107,22 +113,34 @@ Directory Tree
     `-- wireguard
         |-- client
         |   |-- android-or-android-tv-os
+        |   |   |-- android.ipv4.json
         |   |   |-- android.ipv4.strict_route.json
+        |   |   |-- android.json
         |   |   `-- android.strict_route.json
         |   |-- ios
+        |   |   |-- ios.ipv4.json
         |   |   |-- ios.ipv4.strict_route.json
+        |   |   |-- ios.json
         |   |   `-- ios.strict_route.json
         |   |-- ipados-or-tvos
+        |   |   |-- ipados.ipv4.json
         |   |   |-- ipados.ipv4.strict_route.json
+        |   |   |-- ipados.json
         |   |   `-- ipados.strict_route.json
         |   |-- macos
+        |   |   |-- macos.ipv4.json
         |   |   |-- macos.ipv4.strict_route.json
+        |   |   |-- macos.json
         |   |   `-- macos.strict_route.json
         |   |-- ubuntu
+        |   |   |-- ubuntu.ipv4.json
         |   |   |-- ubuntu.ipv4.strict_route.json
+        |   |   |-- ubuntu.json
         |   |   `-- ubuntu.strict_route.json
         |   `-- windows
+        |       |-- windows.ipv4.json
         |       |-- windows.ipv4.strict_route.json
+        |       |-- windows.json
         |       `-- windows.strict_route.json
         `-- server
             `-- ubuntu
