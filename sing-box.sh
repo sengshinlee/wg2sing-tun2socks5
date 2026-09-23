@@ -32,7 +32,9 @@ function install() {
            [ "${HOSTNAME}" == "us-west-2a" ] || \
            [ "${HOSTNAME}" == "us-west-2-wl1-sfo-wlz-1" ] || \
            [ "${HOSTNAME}" == "ap-east-1a" ] || \
-           [ "${HOSTNAME}" == "gomami" ]; then
+           [ "${HOSTNAME}" == "azure" ] || \
+           [ "${HOSTNAME}" == "gcp" ] || \
+           [ "${HOSTNAME}" == "tencentcloud" ]; then
             curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.14.0 >/dev/null 2>&1
         else
             echo "WARNING: The hostname must be one of the following:"
@@ -46,7 +48,9 @@ function install() {
             echo "  - us-west-2a"
             echo "  - us-west-2-wl1-sfo-wlz-1"
             echo "  - ap-east-1a"
-            echo "  - gomami"
+            echo "  - azure"
+            echo "  - gcp"
+            echo "  - tencentcloud"
             exit 1
         fi
 
