@@ -47,7 +47,7 @@
       "auth_key": "YOUR_TAILSCALE_AUTH_KEY", // The auth key to create the node
       "control_url": "", // The coordination server URL, default: https://controlplane.tailscale.com
       "ephemeral": false, // Indicates whether the instance should register as an Ephemeral node
-      "hostname": "ubuntu-verizon-us-mob-socks5", // The hostname of the node
+      "hostname": "YOUR_UBUNTU_SERVER_MACHINE_HOSTNAME", // The hostname of the node
       "accept_routes": true, // Indicates whether the node should accept routes advertised by other nodes
       "exit_node": "", // The exit node name or IP address to use
       "exit_node_allow_lan_access": false, // Indicates whether locally accessible subnets should be routed directly or via the exit node
