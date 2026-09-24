@@ -138,7 +138,8 @@
       "system_interface_mtu": 0,
       "udp_timeout": "5m",
       "ssh_server": false,
-      "taildrop_directory": ""
+      "taildrop_directory": "",
+      "on_demand": false
     }
   ],
   "inbounds": [
