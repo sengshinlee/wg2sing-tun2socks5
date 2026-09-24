@@ -396,7 +396,18 @@
       {
         "domain_suffix": [
           "figma.com",
-          "spotify.com"
+          "spotify.com",
+
+          "dnse2.com",
+          "eziot.com",
+          "ezviz.com",
+          "hikiot.com",
+          "hikiot.com.eo.dnse2.com",
+          "hikmall.com",
+          "hikvision.com",
+          "hik-cloud.com",
+          "hik-express.com",
+          "ys7.com"
         ],
         "outbound": "direct-out"
       },
