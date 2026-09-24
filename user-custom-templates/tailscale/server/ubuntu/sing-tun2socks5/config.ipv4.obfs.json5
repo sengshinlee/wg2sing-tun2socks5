@@ -67,7 +67,8 @@
         "disable_sftp": false,
         "disable_forwarding": false
       },
-      "taildrop_directory": ""                           // The directory where files received from tailnet peers are stored, default: Taildrop
+      "taildrop_directory": "",                          // The directory where files received from tailnet peers are stored, default: Taildrop
+      "on_demand": false                                 // Allow the endpoint to be disconnected when necessary
     }
   ],
   "inbounds": [
