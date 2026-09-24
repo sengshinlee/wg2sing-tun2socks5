@@ -224,6 +224,8 @@
 
           "Figma.exe",
 
+          "Spotify.exe",
+
           "autoDiagnoseUpdate.exe",
           "Autoupdate.exe",
           "BaiduNetdisk.exe",
@@ -390,6 +392,13 @@
           "claude-ai.staging.ant.dev"
         ],
         "outbound": "ts-ep"
+      },
+      {
+        "domain_suffix": [
+          "figma.com",
+          "spotify.com"
+        ],
+        "outbound": "direct-out"
       },
       {
         "domain_suffix": [
