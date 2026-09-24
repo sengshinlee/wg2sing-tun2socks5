@@ -1,12 +1,12 @@
 Description
-  A bash script for Ubuntu designed to seamlessly integrate the advantages of WireGuard, sing-box, and SOCKS5, so you can tunnel all you desire, mainly by providing user custom configuration templates for sing-box (Version: v1.14.0 stable).
+  A bash script for Ubuntu designed to seamlessly integrate the advantages of WireGuard, sing-box, and SOCKS5, so you can tunnel all you desire, mainly by providing user custom configuration templates for sing-box (Version: v1.15.0-alpha.7).
 
 Features
-  - Only support "sing-box-1.14.0-linux-stable"
+  - Only support "sing-box-1.15.0-alpha.7-linux"
   - Combine the advantages of WireGuard VPN protocol(including Tailscale mesh VPN), sing-box naked core and SOCKS5 protocol
 
   + Install sing-box on Ubuntu Linux via dpkg
-      - Command: curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.14.0
+      - Command: curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.15.0-alpha.7
 
   + Provide a JSON Schema Draft 2020-12 for configuration files, compatible editors can use it for completion and validation
       - JSON Schema URL: https://sing-box.sagernet.org/schema.json
