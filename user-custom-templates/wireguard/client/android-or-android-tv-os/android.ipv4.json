@@ -295,7 +295,10 @@
           "hikvision.com",
           "hik-cloud.com",
           "hik-express.com",
-          "ys7.com"
+          "ys7.com",
+
+          "mountaintoys.cn",
+          "edge.mountaintoys.cn"
         ],
         "outbound": "direct-out"
       },

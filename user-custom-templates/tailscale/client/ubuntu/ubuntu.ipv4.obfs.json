@@ -255,7 +255,10 @@
       {
         "domain_suffix": [
           "figma.com",
-          "spotify.com"
+          "spotify.com",
+
+          "mountaintoys.cn",
+          "edge.mountaintoys.cn"
         ],
         "outbound": "direct-out"
       },
