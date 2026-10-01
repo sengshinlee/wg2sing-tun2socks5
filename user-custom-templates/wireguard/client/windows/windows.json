@@ -48,6 +48,13 @@
     ],
     "rules": [
       {
+        "domain": [
+          "time.windows.com",
+          "github.com"
+        ],
+        "server": "DNSPod-V4"
+      },
+      {
         "query_type": [
           "A",
           "AAAA"

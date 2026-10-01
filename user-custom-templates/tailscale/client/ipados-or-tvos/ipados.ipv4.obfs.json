@@ -47,6 +47,10 @@
     ],
     "rules": [
       {
+        "domain": "time.apple.com",
+        "server": "DNSPod-V4"
+      },
+      {
         "query_type": [
           "AAAA"
         ],

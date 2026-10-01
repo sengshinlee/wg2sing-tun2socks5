@@ -47,6 +47,13 @@
     ],
     "rules": [
       {
+        "domain": [
+          "time.android.com",
+          "connectivity-check.ubuntu.com"
+        ],
+        "server": "DNSPod-V4"
+      },
+      {
         "query_type": [
           "AAAA"
         ],

@@ -48,6 +48,14 @@
     ],
     "rules": [
       {
+        "domain": [
+          "ntp.ubuntu.com",
+          "connectivity-check.ubuntu.com",
+          "github.com",
+        ],
+        "server": "DNSPod-V4"
+      },
+      {
         "query_type": [
           "A",
           "AAAA"
