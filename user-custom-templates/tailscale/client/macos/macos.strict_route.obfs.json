@@ -50,7 +50,7 @@
       {
         "domain": [
           "time.apple.com",
-          "github.com",
+          "github.com"
         ],
         "server": "DNSPod-V4"
       },
