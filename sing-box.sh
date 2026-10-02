@@ -35,7 +35,7 @@ function install() {
            [ "${HOSTNAME}" == "azure" ] || \
            [ "${HOSTNAME}" == "gcp" ] || \
            [ "${HOSTNAME}" == "tencentcloud" ]; then
-            curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.15.0-alpha.7 >/dev/null 2>&1
+            curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.15.0-alpha.9 >/dev/null 2>&1
         else
             echo "WARNING: The hostname must be one of the following:"
             echo "  - pikvm"
@@ -139,8 +139,6 @@ function remove() {
         rm /var/log/wg-quick-cron.log >/dev/null 2>&1
         rm /usr/local/bin/sing-box-run-cron.sh >/dev/null 2>&1
         rm /var/log/sing-box-run-cron.log >/dev/null 2>&1
-        rm /root/cache.db >/dev/null 2>&1
-        rm /home/ubuntu/cache.db >/dev/null 2>&1
 
         wg-quick down wg0.sing-box >/dev/null 2>&1
         pkill -15 -f "sing-box run -c /etc/sing-box/config.json5" >/dev/null 2>&1
@@ -225,7 +223,7 @@ USAGE
 
 OPTION
     -h, --help                Show help manual
-    -i, --install             Install "sing-box-1.15.0-alpha.7-linux"
+    -i, --install             Install "sing-box-1.15.0-alpha.9-linux"
     -gw, --generate-wireguard Generate 3[/2] files: "wg0.sing-box.conf" and "config[.ipv4].json5"
     -gt, --generate-tailscale Generate 2[/1] file[s]: "config[.ipv4].obfs.json5"
     -r, --remove              Uninstall sing-box and remove all configuration files
