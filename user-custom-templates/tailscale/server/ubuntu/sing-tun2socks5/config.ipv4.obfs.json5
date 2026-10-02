@@ -67,7 +67,7 @@
         "disable_sftp": false,
         "disable_forwarding": false
       },
-      "taildrop_directory": "",                          // The directory where files received from tailnet peers are stored, default: Taildrop
+      "taildrop_directory": "/etc/sing-box/Taildrop",    // The directory where files received from tailnet peers are stored, default: Taildrop
       "on_demand": false                                 // Allow the endpoint to be disconnected when necessary
     }
   ],
@@ -81,6 +81,11 @@
         "172.18.0.1/30"
       ],
       "auto_route": true,
+      "iproute2_table_index": 2022,
+      "iproute2_rule_index": 9000,
+      "auto_redirect": true,
+      "auto_redirect_input_mark": "0x2023",
+      "auto_redirect_output_mark": "0x2024",
       "loopback_address": [
         "10.7.0.1"
       ],
@@ -170,15 +175,28 @@
       "tag": "API",
       "listen": "127.0.0.1",
       "listen_port": 8081,
+      "secret": "",
+      "access_control_allow_origin": [],
+      "access_control_allow_private_network": false,
       "dashboard": {
-        "enabled": true
-      }
+        "enabled": true,
+        "path": "/etc/sing-box/dashboard",
+        "download_url": "",
+        "http_client": "",
+        "update_interval": "1d"
+      },
+     "tls": {}
     }
   ],
   "experimental": {
     "cache_file": {
       "enabled": true,
-      "store_dns": true
+      "path": "/etc/sing-box/cache.db",
+      "cache_id": "",
+      "store_fakeip": false,
+      "store_dns": true,
+      "buffer_size": "1MB",
+      "flush_interval": "1d"
     }
   }
 }
