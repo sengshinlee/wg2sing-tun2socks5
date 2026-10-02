@@ -56,7 +56,7 @@ Features
 
   - Support both IPv4-only and dual-stack
 
-  + Support sing-box naked core and all GUI clients
+  + Support sing-box naked core and all official GUI clients
       - sing-box naked core
       - sing-box API
       - sing-box dashboard
