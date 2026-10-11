@@ -293,6 +293,11 @@
       },
       {
         "domain_suffix": [
+          "cn",
+          "com.cn",
+          "edu.cn",
+          "gov.cn",
+
           "dnse2.com",
           "eziot.com",
           "ezviz.com",

@@ -403,6 +403,11 @@
       },
       {
         "domain_suffix": [
+          "cn",
+          "com.cn",
+          "edu.cn",
+          "gov.cn",
+
           "figma.com",
           "spotify.com",
 
