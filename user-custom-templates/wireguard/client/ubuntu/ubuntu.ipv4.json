@@ -55,16 +55,12 @@
         "server": "DNSPod-V4"
       },
       {
-        "query_type": [
-          "AAAA"
-        ],
+        "query_type": "AAAA",
         "action": "predefined",
         "rcode": "NOERROR"
       },
       {
-        "query_type": [
-          "A"
-        ],
+        "query_type": "A",
         "server": "FakeIP"
       },
       {
@@ -76,9 +72,7 @@
         "mode": "and",
         "rules": [
           {
-            "query_type": [
-              "A"
-            ]
+            "query_type": "A"
           },
           {
             "rule_set": "geosite-geolocation-!cn",
@@ -93,9 +87,7 @@
         "mode": "and",
         "rules": [
           {
-            "query_type": [
-              "A"
-            ]
+            "query_type": "A"
           },
           {
             "rule_set": "geosite-geolocation-!cn",
