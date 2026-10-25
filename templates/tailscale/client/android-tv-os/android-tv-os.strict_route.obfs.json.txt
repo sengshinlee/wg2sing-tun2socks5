@@ -1,0 +1,312 @@
+{
+  "$schema": "https://sing-box.sagernet.org/schema.json",
+  "log": {
+    "disabled": false,
+    "level": "debug",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "tag": "DNSPod-V4",
+        "server": "120.53.53.53",
+        "tls": {
+          "enabled": true,
+          "server_name": "dns.pub"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "DNSPod-DoH",
+        "domain_resolver": "DNSPod-V4",
+        "server": "dns.pub"
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-V4",
+        "detour": "ts-ep",
+        "server": "1.1.1.1",
+        "tls": {
+          "enabled": true,
+          "server_name": "cloudflare-dns.com"
+        }
+      },
+      {
+        "type": "https",
+        "tag": "Cloudflare-DoH",
+        "detour": "ts-ep",
+        "domain_resolver": "Cloudflare-V4",
+        "server": "cloudflare-dns.com"
+      },
+      {
+        "type": "fakeip",
+        "tag": "FakeIP",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "domain": [
+          "time.android.com",
+          "connectivity-check.ubuntu.com"
+        ],
+        "server": "DNSPod-V4"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "FakeIP"
+      },
+      {
+        "rule_set": "geosite-geolocation-cn",
+        "server": "DNSPod-DoH"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "query_type": [
+              "A",
+              "AAAA"
+            ]
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          }
+        ],
+        "action": "evaluate",
+        "server": "Cloudflare-DoH"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "query_type": [
+              "A",
+              "AAAA"
+            ]
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          },
+          {
+            "rule_set": "geoip-cn",
+            "match_response": true
+          }
+        ],
+        "action": "respond"
+      }
+    ],
+    "final": "Cloudflare-DoH",
+    "strategy": "prefer_ipv6",
+    "disable_cache": true,
+    "disable_expire": false
+  },
+  "ntp": {
+    "server": "time.android.com",
+    "server_port": 0
+  },
+  "http_clients": [
+    {
+      "tag": "rule-set-direct-out",
+      "engine": "go"
+    }
+  ],
+  "endpoints": [
+    {
+      "type": "tailscale",
+      "tag": "ts-ep",
+      "state_directory": "",
+      "auth_key": "",
+      "control_url": "",
+      "ephemeral": false,
+      "hostname": "YOUR_ANDROID_OR_ANDROID_TV_OS_DEVICE_HOSTNAME",
+      "accept_routes": false,
+      "exit_node": "YOUR_TAILSCALE_EXIT_NODE",
+      "exit_node_allow_lan_access": true,
+      "advertise_routes": [],
+      "advertise_exit_node": false,
+      "advertise_tags": [],
+      "listen_port": 0,
+      "system_interface": false,
+      "system_interface_name": "",
+      "system_interface_mtu": 0,
+      "udp_timeout": "5m",
+      "ssh_server": false,
+      "taildrop_directory": "",
+      "on_demand": false
+    }
+  ],
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "sing-tun0",
+      "mtu": 9000,
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "auto_route": true,
+      "strict_route": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct-out"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "protocol": "dns"
+          },
+          {
+            "port": 53
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 853
+          },
+          {
+            "protocol": "stun"
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct-out"
+      },
+      {
+        "package_name":[
+          "com.wireguard.android",
+          "com.tailscale.ipn",
+          "com.carriez.flutter_hbb",
+          "com.microsoft.rdc.androidx",
+
+          "com.hikvision.sentinels",
+
+          "com.tencent.qqlive",
+          "com.ktcp.video",
+          "com.qiyi.video",
+          "com.gitvdemo.video",
+          "com.youku.phone",
+          "com.cibn.tv",
+          "com.hunantv.imgo.activity",
+          "com.starcor.mango",
+          "tv.danmaku.bili",
+          "com.xiaodianshi.tv.yst",
+
+          "com.baidu.netdisk",
+          "com.baidu.netdisk.tv",
+          "com.alicloud.databox",
+          "tv.huan.aliyunpan",
+          "com.xunlei.downloadprovider",
+          "com.xunlei.downloadprovider.hd",
+
+          "org.videolan.vlc"
+        ],
+        "outbound": "direct-out"
+      },
+      {
+        "domain_suffix": [
+          "cn",
+          "com.cn",
+          "edu.cn",
+          "gov.cn",
+
+          "dnse2.com",
+          "eziot.com",
+          "ezviz.com",
+          "hikiot.com",
+          "hikiot.com.eo.dnse2.com",
+          "hikmall.com",
+          "hikvision.com",
+          "hik-cloud.com",
+          "hik-express.com",
+          "ys7.com",
+
+          "mountaintoys.cn",
+          "edge.mountaintoys.cn",
+          "solseed.cn"
+        ],
+        "outbound": "direct-out"
+      },
+      {
+        "rule_set": "geosite-geolocation-cn",
+        "outbound": "direct-out"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "geoip-cn"
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          }
+        ],
+        "outbound": "direct-out"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-cn",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-cn.srs"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-!cn",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs"
+      }
+    ],
+    "final": "ts-ep",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "DNSPod-DoH",
+    "default_http_client": "rule-set-direct-out"
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": false,
+      "cache_id": "",
+      "store_fakeip": true,
+      "store_dns": true,
+      "buffer_size": "1MB",
+      "flush_interval": "1d"
+    }
+  }
+}
