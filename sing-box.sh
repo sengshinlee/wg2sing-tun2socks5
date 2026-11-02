@@ -35,7 +35,7 @@ function install() {
            [ "${HOSTNAME}" == "ap-east-1a" ] || \
            [ "${HOSTNAME}" == "azure" ] || \
            [ "${HOSTNAME}" == "gcp" ]; then
-            curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.15.0-alpha.12 >/dev/null 2>&1
+            curl -fsSL https://sing-box.app/install.sh | sh -s -- --version 1.15.0-alpha.13 >/dev/null 2>&1
         else
             echo "WARNING: The hostname must be one of the following:"
             echo "  - pikvm"
@@ -224,7 +224,7 @@ USAGE
 
 OPTION
     -h, --help                Show help manual
-    -i, --install             Install "sing-box-1.15.0-alpha.12-linux"
+    -i, --install             Install "sing-box-1.15.0-alpha.13-linux"
     -gw, --generate-wireguard Generate 3[/2] files: "wg0.sing-box.conf" and "config[.ipv4].json5"
     -gt, --generate-tailscale Generate 2[/1] file[s]: "config[.ipv4].obfs.json5"
     -r, --remove              Uninstall sing-box and remove all configuration files
